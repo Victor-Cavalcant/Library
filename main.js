@@ -32,7 +32,7 @@ addbook.addEventListener("click", (e) => {
         <h2>${book.title}</h2>
         <h3>${book.author}</h3>
         <p>${book.pages} pages</p>
-        <p>${book.read}</p>
+        <p>Read: ${book.read ? 'Yes' : 'No'}</p>
         <button class="remove">remove</button>
         `;
         books.appendChild(bookcard);
