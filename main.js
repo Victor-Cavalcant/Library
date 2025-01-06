@@ -5,8 +5,7 @@ const read = document.getElementById("read");
 const addbook = document.querySelector("button");
 const books = document.getElementById("books");
 
-
-function book (title, author, pages, read) {
+function book(title, author, pages, read) {
     this.title = title;
     this.author = author;
     this.pages = pages;
@@ -17,29 +16,40 @@ const library = [];
 
 addbook.addEventListener("click", (e) => {
     e.preventDefault();
-    const newbook = new book(booktitle.value, bookauthor.value, bookpages.value, read.value);
+    const newbook = new book(booktitle.value, bookauthor.value, bookpages.value, read.checked);
     library.push(newbook);
-    console.log(library);
     booktitle.value = "";
     bookauthor.value = "";
     bookpages.value = "";
-    read.value = "";
-    books.innerHTML = "";
+    read.checked = false;
+    renderLibrary();
+});
+
+function renderLibrary() {
+    books.innerHTML = ""; // Limpa a exibição anterior
     library.forEach((book, index) => {
         const bookcard = document.createElement("div");
         bookcard.classList.add("bookcard");
         bookcard.innerHTML = `
-        <h2>${book.title}</h2>
-        <h3>${book.author}</h3>
-        <p>${book.pages} pages</p>
-        <p>Read: ${book.read ? 'Yes' : 'No'}</p>
-        <button class="remove">remove</button>
+            <h2>${book.title}</h2>
+            <h3>${book.author}</h3>
+            <p>${book.pages} pages</p>
+            <p>Read: ${book.read ? 'Yes' : 'No'}</p>
+            <button class="toggle">Read?</button>
+            <button class="remove">Remove</button>
         `;
         books.appendChild(bookcard);
+
+        const toggle = bookcard.querySelector(".toggle");
+        toggle.addEventListener("click", () => {
+            book.read = !book.read; // Alterna o estado de leitura
+            renderLibrary(); // Atualiza a exibição
+        });
+
         const remove = bookcard.querySelector(".remove");
         remove.addEventListener("click", () => {
-            library.splice(index, 1);
-            books.removeChild(bookcard);
-        })
-    })
-})
+            library.splice(index, 1); // Remove o livro da biblioteca
+            renderLibrary(); // Atualiza a exibição
+        });
+    });
+}
