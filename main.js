@@ -6,20 +6,21 @@ const lib = (() => {
     const addbook = document.querySelector("button");
     const books = document.getElementById("books");
 
-    const createBook = (title, author, pages, read) => {
-        return {
-            title,
-            author,
-            pages,
-            read,
-        };
-    };
+
+    class Book {
+        constructor(title, author, pages, read) {
+            this.title = title;
+            this.author = author;
+            this.pages = pages;
+            this.read = read;
+        }
+    }
 
     const library = [];
 
     addbook.addEventListener("click", (e) => {
         e.preventDefault();
-        const newbook = createBook(booktitle.value, bookauthor.value, bookpages.value, read.checked);
+        const newbook = new Book(booktitle.value, bookauthor.value, bookpages.value, read.checked);
         library.push(newbook);
         booktitle.value = "";
         bookauthor.value = "";
